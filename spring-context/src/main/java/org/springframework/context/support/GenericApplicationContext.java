@@ -320,7 +320,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
-
+		//向Map put一个值
 		this.beanFactory.registerBeanDefinition(beanName, beanDefinition);
 	}
 

@@ -172,9 +172,20 @@ public abstract class AnnotationConfigUtils {
 
 				创建一个BeanDefinition有两种方式，一种是通过前面的进行读取后创建一个BeanDefinition
 				第二种是直接new 出一个BeanDefinition类型的对象
+
+				此时他就是直接new出来的
+
+				注册
+					ConfigurationClassPostProcessor
+					AutowiredAnnotationBeanPostProcessor
+					CommonAnnotationBeanPostProcessor
+					EventListenerMethodProcessor
+					DefaultEventListenerFactory
+
 			*/
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);
+			//开始注册
 			beanDefs.add(registerPostProcessor(registry, def, CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 

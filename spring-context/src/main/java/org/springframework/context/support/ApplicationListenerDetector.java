@@ -70,14 +70,21 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 	public Object postProcessAfterInitialization(Object bean, String beanName) {
 		if (bean instanceof ApplicationListener) {
 			// potentially not detected as a listener by getBeanNamesForType retrieval
+			/**
+			 * 可能未被getBeanNamesForType检索检测为侦听器
+			 */
 			Boolean flag = this.singletonNames.get(beanName);
 			if (Boolean.TRUE.equals(flag)) {
 				// singleton bean (top-level or inner): register on the fly
+				/**
+				 * 单例bean（顶级或内部）：即时注册
+				 */
 				this.applicationContext.addApplicationListener((ApplicationListener<?>) bean);
 			}
 			else if (Boolean.FALSE.equals(flag)) {
 				if (logger.isWarnEnabled() && !this.applicationContext.containsBean(beanName)) {
 					// inner bean with other scope - can't reliably process events
+					//内部bean与其他范围 - 无法可靠地处理事件
 					logger.warn("Inner bean '" + beanName + "' implements ApplicationListener interface " +
 							"but is not reachable for event multicasting by its containing ApplicationContext " +
 							"because it does not have singleton scope. Only top-level listener beans are allowed " +

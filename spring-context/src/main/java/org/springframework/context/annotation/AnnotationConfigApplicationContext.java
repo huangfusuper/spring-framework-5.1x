@@ -82,7 +82,10 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		 * 参数this代表整个大环境 当前类 暂时可以解为 AnnotationConfigApplicationContext
 		 */
 		this.reader = new AnnotatedBeanDefinitionReader(this);
-
+		/**
+		 * 实例化了一个ClassPathBeanDefinitionScanner
+		 * 能扫描一个类、包 并且转换成BeanDefinition
+		 */
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
@@ -110,6 +113,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		//在自己的构造方法中初始化一个读取器和扫描器
 		//调用自己的构造方法
 		this();
+		//TODO 放放
 		register(annotatedClasses);
 		refresh();
 	}
@@ -181,6 +185,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	@Override
 	public void register(Class<?>... annotatedClasses) {
 		Assert.notEmpty(annotatedClasses, "At least one annotated class must be specified");
+		//反方向读取一个bean  将bean转换成BeanDefinition
 		this.reader.register(annotatedClasses);
 	}
 

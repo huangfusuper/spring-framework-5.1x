@@ -139,17 +139,18 @@ public class AnnotatedBeanDefinitionReader {
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public void register(Class<?>... annotatedClasses) {
+		//循环获取
 		for (Class<?> annotatedClass : annotatedClasses) {
+			//掉用注册方法
 			registerBean(annotatedClass);
 		}
 	}
 
 	/**
-	 * Register a bean from the given bean class, deriving its metadata from
-	 * class-declared annotations.
-	 * @param annotatedClass the class of the bean
+	 * 从给定的bean类注册bean，从中派生元数据
 	 */
 	public void registerBean(Class<?> annotatedClass) {
+		//空壳方法 将注册委托给 doRegisterBean
 		doRegisterBean(annotatedClass, null, null, null);
 	}
 
@@ -206,22 +207,19 @@ public class AnnotatedBeanDefinitionReader {
 	}
 
 	/**
-	 * Register a bean from the given bean class, deriving its metadata from
-	 * class-declared annotations.
-	 * @param annotatedClass the class of the bean
-	 * @param instanceSupplier a callback for creating an instance of the bean
-	 * (may be {@code null})
-	 * @param name an explicit name for the bean
-	 * @param qualifiers specific qualifier annotations to consider, if any,
-	 * in addition to qualifiers at the bean class level
-	 * @param definitionCustomizers one or more callbacks for customizing the
-	 * factory's {@link BeanDefinition}, e.g. setting a lazy-init or primary flag
+	 * 从给定的bean类注册bean，从中派生元数据
+	 *
 	 * @since 5.0
 	 */
 	<T> void doRegisterBean(Class<T> annotatedClass, @Nullable Supplier<T> instanceSupplier, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, BeanDefinitionCustomizer... definitionCustomizers) {
 
+		//BeanDefinition  还是通过new的方式去创建了一个BeanDefinition
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(annotatedClass);
+		/**
+		 * 判断这个类是否需要跳过解析
+		 * 通过代码可以知道Spring判断是否跳过解析 主要判断类没有注解
+		 */
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;
 		}
